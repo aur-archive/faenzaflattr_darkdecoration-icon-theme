@@ -1,0 +1,53 @@
+# Maintainer:  viperpaulo
+
+pkgname=faenzaflattr_darkdecoration-icon-theme
+_pkgname=FaenzaFlattr-DarkDecoration
+pkgver=1.1.7
+pkgrel=1
+pkgdesc="FaenzaFlattr icon theme for KDE4 with DarkDecoration fix"
+url="http://kde-look.org/content/show.php/FaenzaFlattr?content=164770"
+license=('CCPL:by-nc-sa')
+arch=('any')
+depends=('kdebase-workspace')
+source=("${_pkgname}_${pkgver}.7z::https://drive.google.com/uc?export=download&id=0BwlW9hKxf1tUWHdWakc1cF81WUk")
+md5sums=('bae12e18b74bfe06f0cedc62cd7ab1d0')
+options=(!strip)
+
+package() {
+  install -d $pkgdir/usr/share/icons
+  install -Dm644 $srcdir/${_pkgname}/LICENSE.txt $pkgdir/usr/share/licenses/${_pkgname}/LICENSE
+  cp -r $srcdir/${_pkgname} $pkgdir/usr/share/icons/
+  rm $pkgdir/usr/share/icons/${_pkgname}/LICENSE.txt
+  
+# # Small icons fix: use scalable icons instead of small ones
+#   cd $pkgdir/usr/share/icons/${_pkgname}/places/
+#   mv small/folder-documents.svg  small/folder-documents_dark.svg
+#   mv small/folder-download.svg   small/folder-download_dark.svg
+#   mv small/folder-dropbox.svg    small/folder-dropbox_dark.svg
+#   mv small/folder-home.svg       small/folder-home_dark.svg
+#   mv small/folder-music.svg      small/folder-music_dark.svg
+#   mv small/folder-network.svg    small/folder-network_dark.svg
+#   mv small/folder-pictures.svg   small/folder-pictures_dark.svg
+#   mv small/folder-videos.svg     small/folder-videos_dark.svg
+#   mv small/folder-virtualbox.svg small/folder-virtualbox_dark.svg
+# 
+#   ln -s scalable/folder-documents.svg small/folder-documents.svg
+#   ln -s scalable/folder-download.svg  small/folder-download.svg 
+#   ln -s scalable/folder-dropbox.svg   small/folder-dropbox.svg 
+#   ln -s scalable/folder-home.svg      small/folder-home.svg     
+#   ln -s scalable/folder-music.svg     small/folder-music.svg    
+#   ln -s scalable/folder-network.svg   small/folder-network.svg  
+#   ln -s scalable/folder-videos.svg    small/folder-videos.svg   
+
+#   Old Firefox icon fix 
+#   cd ../apps/scalable/
+#   mv firefox.svgz firefox_new.svgz
+#   ln -s firefox2.svg firefox.svg
+
+
+  find $pkgdir/usr -type f -exec chmod 644 {} \;
+  find $pkgdir/usr -type d -exec chmod 755 {} \;
+  find $pkgdir/usr -type f -name '.directory' -delete
+
+}
+
